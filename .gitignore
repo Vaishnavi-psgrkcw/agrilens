@@ -1,0 +1,4 @@
+﻿node_modules/
+server/.env
+ml-model/saved_model/*.keras
+ml-model/saved_model/*.json
