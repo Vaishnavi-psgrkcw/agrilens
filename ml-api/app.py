@@ -32,14 +32,14 @@ class_names = []
 def load_model():
     """Lazy-loads the model on first request (or at startup)."""
     global model, class_names
-    import tensorflow as tf
+    import keras
 
     if not os.path.exists(MODEL_PATH):
         print(f"⚠️  Model not found at {MODEL_PATH}")
         print("    Train it using the Colab notebook first, then place the files in ml-model/saved_model/")
         return
 
-    model = tf.keras.models.load_model(MODEL_PATH)
+    model = keras.models.load_model(MODEL_PATH, safe_mode=False)
     with open(CLASSES_PATH) as f:
         class_names = json.load(f)
     print(f"✅ Model loaded. Classes: {class_names}")
@@ -104,4 +104,5 @@ def predict():
 
 if __name__ == "__main__":
     load_model()
-    app.run(host="0.0.0.0", port=5050, debug=True)
+    port = int(os.environ.get("PORT", 5050))
+    app.run(host="0.0.0.0", port=port, debug=False)
